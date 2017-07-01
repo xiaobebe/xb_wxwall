@@ -1,0 +1,28 @@
+FROM hub.c.163.com/library/php:7.1.4-fpm-alpine
+
+MAINTAINER xiaobe <wyy.xb@qq.com>
+
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories
+
+RUN apk update \
+    && apk upgrade \
+    && apk add --no-cache bash libpng libpng-dev \
+    && docker-php-ext-install gd
+
+RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS linux-headers zlib-dev pcre-dev\
+	&& pecl install swoole \
+	&& docker-php-ext-enable swoole \
+	&& apk del .phpize-deps
+
+# 安装Xdebug ，生产模式下无需开启
+RUN apk add --no-cache ca-certificates autoconf alpine-sdk sqlite-dev && \
+    update-ca-certificates && \
+    pecl install xdebug && \
+    docker-php-ext-enable xdebug 
+
+
+EXPOSE 8866 
+
+
+
