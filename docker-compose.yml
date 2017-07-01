@@ -3,7 +3,7 @@ version: '2'
 services:
 
   proxy:
-    image: daocloud.io/daocloud/nginx-proxy:latest
+    image: registry.cn-hangzhou.aliyuncs.com/max/nginx-proxy:latest
     ports:
       - 80:80
     volumes:
