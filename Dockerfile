@@ -18,12 +18,12 @@ RUN docker-php-ext-install mysqli pdo_mysql gd \
     && ./configure \
     && make all \
     && docker-php-ext-install memcache \
-    && docker-php-ext-enable memcache 
+    && docker-php-ext-enable memcache \
 
     # 用完包管理器后安排打扫卫生可以显著的减少镜像大小
-    # && apt-get clean \
-    # && apt-get autoclean \
-    # && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && apt-get clean \
+    && apt-get autoclean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
 RUN usermod -u 1000 www-data \
     && usermod -g root www-data \
@@ -31,9 +31,9 @@ RUN usermod -u 1000 www-data \
 
 ADD ./display.ini /usr/local/etc/php/conf.d 
 ADD ./000-default.conf /etc/apache2/sites-available/000-default.conf 
-COPY code /var/www/html
 
-RUN chmod 777 -R /var/www/html
+# COPY code /var/www/html
+# RUN chmod 777 -R /var/www/html
 
 
 EXPOSE 8866 80 5050
