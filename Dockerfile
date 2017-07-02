@@ -35,7 +35,6 @@ ADD ./000-default.conf /etc/apache2/sites-available/000-default.conf
 # COPY code /var/www/html
 # RUN chmod 777 -R /var/www/html
 
-
 EXPOSE 8866 80 5050 
 
 CMD /usr/bin/memcached -d -m 50 -p 11211 -u root -v && apache2-foreground
