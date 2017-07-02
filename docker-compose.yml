@@ -32,12 +32,12 @@ services:
 
 ### Memcached Container #####################################
 
-  memcached:
-    build: ./memcached
-    volumes:
-      - ./memcached:/var/lib/memcached
-    ports:
-      - "11211:11211"
+  # memcached:
+  #   build: ./memcached
+  #   volumes:
+  #     - ./memcached:/var/lib/memcached
+  #   ports:
+  #     - "11211:11211"
 
 ### Volumes Setup #############################################
 

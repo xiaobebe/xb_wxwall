@@ -3,7 +3,7 @@ FROM hub.c.163.com/library/php:7.1.6-apache
 MAINTAINER xiaobe <wyy.xb@qq.com>
 
 RUN apt-get update \
-    && apt-get install -y vim libpng-dev git
+    && apt-get install -y vim libpng-dev git memcached
 
 
     # 官方 PHP 镜像内置命令，安装 PHP 依赖
@@ -36,7 +36,6 @@ ADD ./000-default.conf /etc/apache2/sites-available/000-default.conf
 # RUN chmod 777 -R /var/www/html
 
 
-EXPOSE 8866 80 5050
+EXPOSE 8866 80 5050 
 
-
-
+CMD /usr/bin/memcached -d -m 50 -p 11211 -u root -v && apache2-foreground
