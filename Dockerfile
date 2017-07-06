@@ -7,7 +7,7 @@ RUN apt-get update \
 
 
     # 官方 PHP 镜像内置命令，安装 PHP 依赖
-RUN docker-php-ext-install mysqli pdo_mysql gd \
+RUN docker-php-ext-install mysqli pdo_mysql gd pcntl \
     && pecl install swoole \
     && docker-php-ext-enable swoole \
 
@@ -31,10 +31,13 @@ RUN usermod -u 1000 www-data \
 
 ADD ./display.ini /usr/local/etc/php/conf.d 
 ADD ./000-default.conf /etc/apache2/sites-available/000-default.conf 
+COPY workerman /var/www/server
 
 # COPY code /var/www/html
 # RUN chmod 777 -R /var/www/html
 
-EXPOSE 8866 80 5050 
+EXPOSE 8866 80 5050 8282
 
-CMD /usr/bin/memcached -d -m 50 -p 11211 -u root -v && apache2-foreground
+CMD cd /var/www/server/ && php start.php start -d \
+    && /usr/bin/memcached -d -m 50 -p 11211 -u root -v \
+    && apache2-foreground
